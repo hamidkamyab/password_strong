@@ -1,6 +1,7 @@
-import * as Vsc from "react-icons/vsc";
+import * as IO from "react-icons/io";
 import PasswordMeter from "./components/PasswordMeter";
 import { useEffect, useState } from "react";
+import PasswordGenerator from "./components/PasswordGenerator";
 
 function App() {
 
@@ -28,8 +29,6 @@ function App() {
   }
 
   const handlePass = (val)=>{
-    setPassword(val)
-
     const arr = val.split('');
     arr.map((char)=>{
       checkPass(char)
@@ -65,19 +64,33 @@ function App() {
     
   }
 
+  const handleGenerated = (pass)=>{
+    setPassword(pass)
+  }
+
+  useEffect(() => {
+    handlePass(password)
+  }, [password]);
+
   return (
     <div className="App vh-100 d-flex flex-column justify-content-between container">
       <div className="main d-flex flex-column align-items-center pt-5">
-        <h4>رمـــــــز ایمــــن</h4>
+        <h4 className="d-flex align-items-center gap-1 text-muted"><IO.IoMdLock /> رمـــــــز ایمــــن</h4>
 
-        <div className="d-flex justify-content-center my-5 col-10">
+        <div className="d-flex flex-column align-items-center my-5 col-10 gap-4">
           <div className="form-group col-6">
             <input type="text" 
-            onChange={(e)=>handlePass(e.target.value)}
+            onChange={(e)=>setPassword(e.target.value)}
             className="passInput form-control mb-3" 
-            placeholder="رمز مورد نظرتان را وارد کنید..." />
+            placeholder="رمز مورد نظرتان را وارد کنید..."
+            value={password}
+            />
             
             <PasswordMeter score={score} />
+          </div>
+
+          <div className="col-6">
+            <PasswordGenerator generatedPass={handleGenerated} />
           </div>
 
         </div>
